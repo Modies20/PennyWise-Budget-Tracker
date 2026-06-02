@@ -42,10 +42,10 @@ class RecentExpensesAdapter(
     override fun getItemCount(): Int = expenses.size
 
     inner class ExpenseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvCategory: TextView = itemView.findViewById(R.id.tvExpenseCategory)
-        private val tvAmount: TextView = itemView.findViewById(R.id.tvExpenseAmount)
-        private val tvDescription: TextView = itemView.findViewById(R.id.tvExpenseDescription)
-        private val tvDate: TextView = itemView.findViewById(R.id.tvExpenseDate)
+        private val tvCategory: TextView = itemView.findViewById(R.id.tvCategory)
+        private val tvAmount: TextView = itemView.findViewById(R.id.tvAmount)
+        private val tvDescription: TextView = itemView.findViewById(R.id.tvDescription)
+        private val tvDate: TextView = itemView.findViewById(R.id.tvDate)
 
         fun bind(item: ExpenseWithCategory) {
             tvCategory.text = item.categoryName

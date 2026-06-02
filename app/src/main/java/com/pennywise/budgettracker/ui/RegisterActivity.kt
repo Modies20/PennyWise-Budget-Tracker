@@ -15,7 +15,6 @@ import com.pennywise.budgettracker.utils.PasswordHasher
 import kotlinx.coroutines.launch
 
 class RegisterActivity : AppCompatActivity() {
-
     private lateinit var database: AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,81 +22,31 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         database = AppDatabase.getInstance(this)
-        setupClickListeners()
-    }
 
-    private fun setupClickListeners() {
-        val btnRegister = findViewById<android.widget.Button>(R.id.btnRegister)
-        val tvLoginLink = findViewById<android.widget.TextView>(R.id.tvLoginLink)
-
-        btnRegister.setOnClickListener {
-            performRegistration()
-        }
-
-        tvLoginLink.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
-    }
-
-    private fun performRegistration() {
-        val etUsername = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etUsername)
-        val etEmail = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etEmail)
-        val etPassword = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etPassword)
-        val etConfirmPassword = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etConfirmPassword)
-
-        val username = etUsername.text.toString().trim()
-        val email = etEmail.text.toString().trim()
-        val password = etPassword.text.toString()
-        val confirmPassword = etConfirmPassword.text.toString()
-
-        // Validation
-        when {
-            username.isEmpty() -> {
-                etUsername.error = "Username required"
-                return
+        findViewById<android.widget.Button>(R.id.btnRegister).setOnClickListener {
+            val username = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etUsername).text.toString().trim()
+            val password = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etPassword).text.toString()
+            val confirm = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etConfirmPassword).text.toString()
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "All fields required", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-            email.isEmpty() -> {
-                etEmail.error = "Email required"
-                return
+            if (password != confirm) {
+                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-            password.isEmpty() -> {
-                etPassword.error = "Password required"
-                return
-            }
-            password.length < 6 -> {
-                etPassword.error = "Password must be at least 6 characters"
-                return
-            }
-            password != confirmPassword -> {
-                etConfirmPassword.error = "Passwords do not match"
-                return
-            }
-        }
-
-        lifecycleScope.launch {
-            try {
-                // Check if username already exists
-                val existingUser = database.userDao().getUserByUsername(username)
-                if (existingUser != null) {
-                    Toast.makeText(this@RegisterActivity, "Username already exists", Toast.LENGTH_SHORT).show()
+            lifecycleScope.launch {
+                val existing = database.userDao().getUserByUsername(username)
+                if (existing != null) {
+                    Toast.makeText(this@RegisterActivity, "Username taken", Toast.LENGTH_SHORT).show()
                     return@launch
                 }
-
-                val passwordHash = PasswordHasher.hashPassword(password)
-                val user = User(username = username, email = email, passwordHash = passwordHash)
-                val userId = database.userDao().insertUser(user)
-
-                if (userId > 0) {
-                    Toast.makeText(this@RegisterActivity, "Registration successful! Please login.", Toast.LENGTH_LONG).show()
-                    startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
-                    finish()
-                } else {
-                    Toast.makeText(this@RegisterActivity, "Registration failed", Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: Exception) {
-                android.util.Log.e("RegisterActivity", "Registration error: ${e.message}", e)
-                Toast.makeText(this@RegisterActivity, "Error occurred during registration", Toast.LENGTH_SHORT).show()
+                val hash = PasswordHasher.hashPassword(password)
+                val user = User(username = username, passwordHash = hash)
+                database.userDao().insertUser(user)
+                Toast.makeText(this@RegisterActivity, "Registered! Please login", Toast.LENGTH_LONG).show()
+                startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+                finish()
             }
         }
     }

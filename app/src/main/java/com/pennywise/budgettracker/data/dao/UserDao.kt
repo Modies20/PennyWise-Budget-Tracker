@@ -10,7 +10,6 @@ import com.pennywise.budgettracker.data.models.User
 
 @Dao
 interface UserDao {
-
     @Insert
     suspend fun insertUser(user: User): Long
 
@@ -19,7 +18,4 @@ interface UserDao {
 
     @Query("SELECT * FROM users WHERE username = :username AND passwordHash = :passwordHash")
     suspend fun loginUser(username: String, passwordHash: String): User?
-
-    @Query("DELETE FROM users WHERE userId = :userId")
-    suspend fun deleteUser(userId: Long)
 }

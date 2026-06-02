@@ -12,7 +12,5 @@ data class Category(
     val categoryId: Long = 0,
     val userId: Long,
     val name: String,
-    val colorCode: String = "#4CAF50",  // Default green
-    val iconResId: Int = 0,              // Optional icon resource
-    val isDefault: Boolean = false
+    val colorCode: String = "#4CAF50"
 )

@@ -11,8 +11,8 @@ data class Budget(
     @PrimaryKey(autoGenerate = true)
     val budgetId: Long = 0,
     val userId: Long,
-    val categoryId: Long? = null,    // null means total monthly budget
-    val month: Int,                   // 1-12 (January = 1)
+    val categoryId: Long? = null,   // null = total monthly budget
+    val month: Int,
     val year: Int,
-    val limitAmount: Double
+    val limitAmount: Double          // maximum spending limit
 )

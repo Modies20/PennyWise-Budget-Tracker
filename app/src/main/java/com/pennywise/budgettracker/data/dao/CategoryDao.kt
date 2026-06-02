@@ -3,17 +3,12 @@
 
 package com.pennywise.budgettracker.data.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
-import androidx.room.Delete
+import androidx.room.*
 import com.pennywise.budgettracker.data.models.Category
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CategoryDao {
-
     @Insert
     suspend fun insertCategory(category: Category): Long
 
@@ -28,7 +23,4 @@ interface CategoryDao {
 
     @Query("SELECT * FROM categories WHERE userId = :userId AND categoryId = :categoryId")
     suspend fun getCategoryById(userId: Long, categoryId: Long): Category?
-
-    @Query("SELECT * FROM categories WHERE userId = :userId AND isDefault = 1")
-    suspend fun getDefaultCategories(userId: Long): List<Category>
 }

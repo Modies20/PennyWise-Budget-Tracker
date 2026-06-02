@@ -47,7 +47,7 @@ class CategorySpendingAdapter(
 
     inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val cardCategory: CardView = itemView.findViewById(R.id.cardCategory)
-        private val tvCategoryName: TextView = itemView.findViewById(R.id.tvCategoryName)
+        private val tvCategoryName: TextView = itemView.findViewById(R.id.tvCatName)
         private val tvSpentAmount: TextView = itemView.findViewById(R.id.tvSpentAmount)
         private val tvBudgetLimit: TextView = itemView.findViewById(R.id.tvBudgetLimit)
         private val progressBar: ProgressBar = itemView.findViewById(R.id.progressBarCategory)

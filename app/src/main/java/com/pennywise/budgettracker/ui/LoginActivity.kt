@@ -10,13 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.pennywise.budgettracker.R
 import com.pennywise.budgettracker.data.database.AppDatabase
-import com.pennywise.budgettracker.data.models.User
 import com.pennywise.budgettracker.utils.PasswordHasher
 import com.pennywise.budgettracker.utils.SessionManager
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
-
     private lateinit var database: AppDatabase
     private lateinit var sessionManager: SessionManager
 
@@ -27,65 +25,33 @@ class LoginActivity : AppCompatActivity() {
         database = AppDatabase.getInstance(this)
         sessionManager = SessionManager(this)
 
-        // Check if already logged in with valid session
-        if (sessionManager.isLoggedIn() && sessionManager.isSessionValid()) {
-            navigateToDashboard()
-            return
+        if (sessionManager.isLoggedIn()) {
+            startActivity(Intent(this, DashboardActivity::class.java))
+            finish()
         }
 
-        setupClickListeners()
-    }
-
-    private fun setupClickListeners() {
-        val btnLogin = findViewById<android.widget.Button>(R.id.btnLogin)
-        val tvRegisterLink = findViewById<android.widget.TextView>(R.id.tvRegisterLink)
-        val etUsername = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etUsername)
-        val etPassword = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etPassword)
-
-        btnLogin.setOnClickListener {
-            val username = etUsername.text.toString().trim()
-            val password = etPassword.text.toString()
-
-            when {
-                username.isEmpty() -> {
-                    etUsername.error = "Username required"
-                }
-                password.isEmpty() -> {
-                    etPassword.error = "Password required"
-                }
-                else -> {
-                    performLogin(username, password)
-                }
+        findViewById<android.widget.Button>(R.id.btnLogin).setOnClickListener {
+            val username = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etUsername).text.toString().trim()
+            val password = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etPassword).text.toString()
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Fill all fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-        }
-
-        tvRegisterLink.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
-        }
-    }
-
-    private fun performLogin(username: String, password: String) {
-        lifecycleScope.launch {
-            try {
-                val passwordHash = PasswordHasher.hashPassword(password)
-                val user = database.userDao().loginUser(username, passwordHash)
-
+            lifecycleScope.launch {
+                val hash = PasswordHasher.hashPassword(password)
+                val user = database.userDao().loginUser(username, hash)
                 if (user != null) {
                     sessionManager.saveLoginState(user.userId, user.username)
-                    Toast.makeText(this@LoginActivity, "Login successful!", Toast.LENGTH_SHORT).show()
-                    navigateToDashboard()
+                    startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
+                    finish()
                 } else {
-                    Toast.makeText(this@LoginActivity, "Invalid username or password", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
                 }
-            } catch (e: Exception) {
-                android.util.Log.e("LoginActivity", "Login error: ${e.message}", e)
-                Toast.makeText(this@LoginActivity, "Login error occurred", Toast.LENGTH_SHORT).show()
             }
         }
-    }
 
-    private fun navigateToDashboard() {
-        startActivity(Intent(this, DashboardActivity::class.java))
-        finish()
+        findViewById<android.widget.TextView>(R.id.tvRegisterLink).setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
     }
 }
