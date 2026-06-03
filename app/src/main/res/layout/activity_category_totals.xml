@@ -1,10 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical" android:padding="16dp">
-    <Button android:id="@+id/btnTotalsStartDate" android:text="Start Date" style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
-    <Button android:id="@+id/btnTotalsEndDate" android:text="End Date" style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
-    <Button android:id="@+id/btnLoadTotals" android:text="Show Totals" android:backgroundTint="#4CAF50"/>
-    <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvCategoryTotals"
-        android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="16dp"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/btnTotalsStartDate"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_start_date" />
+
+    <Button
+        android:id="@+id/btnTotalsEndDate"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_end_date" />
+
+    <Button
+        android:id="@+id/btnLoadTotals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#4CAF50"
+        android:text="@string/btn_show_totals" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCategoryTotals"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp" />
 </LinearLayout>

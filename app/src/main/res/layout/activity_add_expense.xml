@@ -1,21 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
-        <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText android:id="@+id/etAmount"
-                android:inputType="numberDecimal" android:hint="Amount (R)"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_amount"
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
-        <Button android:id="@+id/btnDate" android:text="Select Date" style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
-        <TextView android:id="@+id/tvSelectedDate" android:layout_marginBottom="16dp"/>
-        <Spinner android:id="@+id/spinnerCategory" android:layout_marginBottom="16dp"/>
-        <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText android:id="@+id/etDescription" android:hint="Description"/>
+
+        <Button
+            android:id="@+id/btnDate"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_select_date" />
+
+        <TextView
+            android:id="@+id/tvSelectedDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_description" />
         </com.google.android.material.textfield.TextInputLayout>
-        <Button android:id="@+id/btnTakePhoto" android:text="Attach Receipt Photo" style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
-        <ImageView android:id="@+id/ivReceiptPreview" android:layout_width="150dp" android:layout_height="150dp"
-            android:layout_marginTop="16dp" android:visibility="gone"/>
-        <Button android:id="@+id/btnSaveExpense" android:text="Save Expense" android:layout_marginTop="24dp"
-            android:backgroundTint="#4CAF50"/>
+
+        <Button
+            android:id="@+id/btnTakePhoto"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_take_photo" />
+
+        <ImageView
+            android:id="@+id/ivReceiptPreview"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/desc_receipt_photo"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnSaveExpense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#4CAF50"
+            android:text="@string/btn_save_expense" />
     </LinearLayout>
 </ScrollView>

@@ -1,13 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical" android:padding="16dp">
-    <Button android:id="@+id/btnStartDate" android:text="Start Date"/>
-    <Button android:id="@+id/btnEndDate" android:text="End Date"/>
-    <TextView android:id="@+id/tvStartDate" android:layout_marginTop="8dp"/>
-    <TextView android:id="@+id/tvEndDate"/>
-    <Button android:id="@+id/btnLoadGraph" android:text="Load Graph" android:layout_marginTop="16dp"
-        android:backgroundTint="#4CAF50"/>
-    <com.github.mikephil.charting.charts.BarChart android:id="@+id/barChart"
-        android:layout_width="match_parent" android:layout_height="300dp" android:layout_marginTop="24dp"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/btnStartDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_start_date" />
+
+    <Button
+        android:id="@+id/btnEndDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_end_date" />
+
+    <TextView
+        android:id="@+id/tvStartDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/tvEndDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnLoadGraph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#4CAF50"
+        android:text="@string/btn_load_graph" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barChart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="24dp" />
 </LinearLayout>
