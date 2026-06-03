@@ -1,0 +1,44 @@
+# PennyWise – Personal Budget Tracker
+
+**PROG7313 POE Part 3 Final Submission**
+
+## Student
+- Name: Mpumelelo Chonco
+- Student Number: ST10449316
+
+## App Purpose
+PennyWise helps users track expenses, set minimum and maximum spending goals, and stay on budget. Data syncs online via Firebase.
+
+## Features
+- User registration & login (secure hashing)
+- Add/edit/delete expenses with receipt photo
+- Category management
+- Monthly budget goals with **min and max** limits
+- **Graph** showing spending per category with min/max lines
+- **Progress dashboard** showing compliance with min/max goals
+- **Achievement badges** (Budget Beginner, etc.)
+- **Subscription detector** (finds recurring expenses)
+- **Online database** (Firestore) – data accessible from multiple devices
+
+## Video Demonstration
+[Link to unlisted YouTube video]()
+
+## APK Download
+[Download APK from GitHub Actions][Direct link]()
+
+## GitHub Repository
+[GitHub URL](https://github.com/YOUR_USERNAME/PennyWiseFinal)
+
+## Setup & Run
+1. Clone repo
+2. Open in Android Studio
+3. Add your own `google-services.json` (Firebase)
+4. Build and run on Android phone (API 24+)
+
+## References (IIE Harvard)
+- Android Developers (2024) *Firebase documentation*. Available at: https://firebase.google.com/docs
+- Jahiruddin, R. (2023) *MPAndroidChart*. GitHub repository.
+- OpenAI ChatGPT (2026) *Assistance with PROG7313 POE Part 3 final app development*, 2 June.
+
+## GitHub Actions Badge
+[![Android CI](https://github.com/YOUR_USERNAME/PennyWiseFinal/actions/workflows/build.yml/badge.svg)](https://github.com/YOUR_USERNAME/PennyWiseFinal/actions/workflows/build.yml)
