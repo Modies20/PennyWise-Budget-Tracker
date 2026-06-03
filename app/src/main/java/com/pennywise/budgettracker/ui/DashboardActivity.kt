@@ -51,6 +51,10 @@ class DashboardActivity : AppCompatActivity() {
 
         loadBudgetAndCategories()
 
+        lifecycleScope.launch {
+            com.pennywise.budgettracker.utils.DummyDataGenerator.populateIfEmpty(database, userId)
+        }
+
         findViewById<android.widget.Button>(R.id.btnGraph).setOnClickListener {
             startActivity(Intent(this, GraphActivity::class.java))
         }

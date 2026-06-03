@@ -32,6 +32,17 @@ object DummyDataGenerator {
             database.expenseDao().insertExpense(Expense(userId = userId, categoryId = transportId, amount = 120.0, date = now - 86400000, description = "Fuel"))
             database.expenseDao().insertExpense(Expense(userId = userId, categoryId = entertainmentId, amount = 350.0, date = now, description = "Netflix & Cinema")) // Slightly over budget for demo
             database.expenseDao().insertExpense(Expense(userId = userId, categoryId = healthId, amount = 200.0, date = now - 172800000, description = "Pharmacy"))
+
+            // Insert a starter badge
+            database.achievementDao().insertAchievement(
+                com.pennywise.budgettracker.data.models.Achievement(
+                    userId = userId,
+                    name = "PennyWise Explorer",
+                    description = "Started your journey to better budgeting!",
+                    earnedDate = now,
+                    iconResId = com.pennywise.budgettracker.R.drawable.ic_badge
+                )
+            )
         }
     }
 }

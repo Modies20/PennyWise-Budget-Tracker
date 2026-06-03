@@ -46,15 +46,27 @@ class AchievementsActivity : AppCompatActivity() {
             findViewById<RecyclerView>(R.id.rvAchievements).apply {
                 layoutManager = LinearLayoutManager(this@AchievementsActivity)
                 adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-                        val view = layoutInflater.inflate(android.R.layout.simple_list_item_2, parent, false)
-                        return object : RecyclerView.ViewHolder(view) {}
+                    inner class AchievementViewHolder(view: android.view.View) : RecyclerView.ViewHolder(view) {
+                        val icon: android.widget.ImageView = view.findViewById(R.id.ivAchievementIcon)
+                        val name: android.widget.TextView = view.findViewById(R.id.tvAchievementName)
+                        val desc: android.widget.TextView = view.findViewById(R.id.tvAchievementDescription)
+                        val date: android.widget.TextView = view.findViewById(R.id.tvEarnedDate)
                     }
+
+                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+                        val view = layoutInflater.inflate(R.layout.item_achievement, parent, false)
+                        return AchievementViewHolder(view)
+                    }
+
                     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
                         val a = allAchievements[position]
-                        holder.itemView.findViewById<android.widget.TextView>(android.R.id.text1).text = a.name
-                        holder.itemView.findViewById<android.widget.TextView>(android.R.id.text2).text = a.description
+                        val h = holder as AchievementViewHolder
+                        h.name.text = a.name
+                        h.desc.text = a.description
+                        h.icon.setImageResource(a.iconResId)
+                        h.date.text = DateUtils.formatDate(a.earnedDate)
                     }
+
                     override fun getItemCount() = allAchievements.size
                 }
             }
