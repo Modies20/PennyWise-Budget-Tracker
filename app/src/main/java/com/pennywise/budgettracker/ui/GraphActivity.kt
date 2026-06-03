@@ -41,7 +41,30 @@ class GraphActivity : AppCompatActivity() {
         findViewById<android.widget.Button>(R.id.btnStartDate).setOnClickListener { pickDate { startDate = it; updateTexts() } }
         findViewById<android.widget.Button>(R.id.btnEndDate).setOnClickListener { pickDate { endDate = it; updateTexts() } }
         findViewById<android.widget.Button>(R.id.btnLoadGraph).setOnClickListener { loadGraph() }
-        updateTexts()
+        
+        // Populate dummy data if user is logged in
+        lifecycleScope.launch {
+            populateDummyDataIfEmpty()
+            updateTexts()
+            loadGraph()
+        }
+    }
+
+    private suspend fun populateDummyDataIfEmpty() {
+        val userId = sessionManager.getUserId()
+        if (userId == -1L) return
+
+        val categories = database.categoryDao().getCategoriesForUser(userId).first()
+        if (categories.isEmpty()) {
+            val foodId = database.categoryDao().insertCategory(com.pennywise.budgettracker.data.models.Category(userId = userId, name = "Food"))
+            val transportId = database.categoryDao().insertCategory(com.pennywise.budgettracker.data.models.Category(userId = userId, name = "Transport"))
+            val entertainmentId = database.categoryDao().insertCategory(com.pennywise.budgettracker.data.models.Category(userId = userId, name = "Entertainment"))
+
+            database.expenseDao().insertExpense(com.pennywise.budgettracker.data.models.Expense(userId = userId, categoryId = foodId, amount = 150.0, date = System.currentTimeMillis(), description = "Lunch"))
+            database.expenseDao().insertExpense(com.pennywise.budgettracker.data.models.Expense(userId = userId, categoryId = foodId, amount = 50.0, date = System.currentTimeMillis() - 86400000, description = "Snacks"))
+            database.expenseDao().insertExpense(com.pennywise.budgettracker.data.models.Expense(userId = userId, categoryId = transportId, amount = 80.0, date = System.currentTimeMillis(), description = "Uber"))
+            database.expenseDao().insertExpense(com.pennywise.budgettracker.data.models.Expense(userId = userId, categoryId = entertainmentId, amount = 120.0, date = System.currentTimeMillis(), description = "Movie"))
+        }
     }
 
     private fun pickDate(onResult: (Long) -> Unit) {
