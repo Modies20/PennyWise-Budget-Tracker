@@ -34,15 +34,20 @@ class GraphActivity : AppCompatActivity() {
         database = AppDatabase.getInstance(this)
         sessionManager = SessionManager(this)
 
+        val userId = sessionManager.getUserId()
+        if (userId == -1L) {
+            finish()
+            return
+        }
+
         val calendar = Calendar.getInstance()
-        startDate = DateUtils.getStartOfMonth(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1)
-        endDate = DateUtils.getEndOfMonth(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1)
+        startDate = DateUtils.getStartOfMonth(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
+        endDate = DateUtils.getEndOfMonth(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
 
         findViewById<android.widget.Button>(R.id.btnStartDate).setOnClickListener { pickDate { startDate = it; updateTexts() } }
         findViewById<android.widget.Button>(R.id.btnEndDate).setOnClickListener { pickDate { endDate = it; updateTexts() } }
         findViewById<android.widget.Button>(R.id.btnLoadGraph).setOnClickListener { loadGraph() }
-        
-        // Populate dummy data if user is logged in
+
         lifecycleScope.launch {
             populateDummyDataIfEmpty()
             updateTexts()
@@ -52,18 +57,18 @@ class GraphActivity : AppCompatActivity() {
 
     private suspend fun populateDummyDataIfEmpty() {
         val userId = sessionManager.getUserId()
-        if (userId == -1L) return
-
         val categories = database.categoryDao().getCategoriesForUser(userId).first()
-        if (categories.isEmpty()) {
-            val foodId = database.categoryDao().insertCategory(com.pennywise.budgettracker.data.models.Category(userId = userId, name = "Food"))
-            val transportId = database.categoryDao().insertCategory(com.pennywise.budgettracker.data.models.Category(userId = userId, name = "Transport"))
-            val entertainmentId = database.categoryDao().insertCategory(com.pennywise.budgettracker.data.models.Category(userId = userId, name = "Entertainment"))
+        val allExpenses = database.expenseDao().getAllExpenses(userId)
 
-            database.expenseDao().insertExpense(com.pennywise.budgettracker.data.models.Expense(userId = userId, categoryId = foodId, amount = 150.0, date = System.currentTimeMillis(), description = "Lunch"))
-            database.expenseDao().insertExpense(com.pennywise.budgettracker.data.models.Expense(userId = userId, categoryId = foodId, amount = 50.0, date = System.currentTimeMillis() - 86400000, description = "Snacks"))
-            database.expenseDao().insertExpense(com.pennywise.budgettracker.data.models.Expense(userId = userId, categoryId = transportId, amount = 80.0, date = System.currentTimeMillis(), description = "Uber"))
-            database.expenseDao().insertExpense(com.pennywise.budgettracker.data.models.Expense(userId = userId, categoryId = entertainmentId, amount = 120.0, date = System.currentTimeMillis(), description = "Movie"))
+        if (categories.isEmpty() || allExpenses.isEmpty()) {
+            val foodId = database.categoryDao().insertCategory(com.pennywise.budgettracker.data.models.Category(userId = userId, name = "Food", colorCode = "#E91E63"))
+            val transportId = database.categoryDao().insertCategory(com.pennywise.budgettracker.data.models.Category(userId = userId, name = "Transport", colorCode = "#2196F3"))
+            val entertainmentId = database.categoryDao().insertCategory(com.pennywise.budgettracker.data.models.Category(userId = userId, name = "Entertainment", colorCode = "#FF9800"))
+
+            val now = System.currentTimeMillis()
+            database.expenseDao().insertExpense(com.pennywise.budgettracker.data.models.Expense(userId = userId, categoryId = foodId, amount = 450.0, date = now, description = "Grocery Shopping"))
+            database.expenseDao().insertExpense(com.pennywise.budgettracker.data.models.Expense(userId = userId, categoryId = transportId, amount = 120.0, date = now - 86400000, description = "Fuel"))
+            database.expenseDao().insertExpense(com.pennywise.budgettracker.data.models.Expense(userId = userId, categoryId = entertainmentId, amount = 300.0, date = now, description = "Netflix & Cinema"))
         }
     }
 
@@ -85,44 +90,42 @@ class GraphActivity : AppCompatActivity() {
             val userId = sessionManager.getUserId()
             val categories = database.categoryDao().getCategoriesForUser(userId).first()
             val expenses = database.expenseDao().getExpensesBetweenDates(userId, startDate, endDate).first()
-            val spendingMap = expenses.groupBy { it.categoryId }.mapValues { it.value.sumOf { exp: com.pennywise.budgettracker.data.models.Expense -> exp.amount } }
+            val spendingMap = expenses.groupBy { it.categoryId }.mapValues { it.value.sumOf { exp -> exp.amount } }
 
             val entries = mutableListOf<BarEntry>()
             val labels = mutableListOf<String>()
-            val categoryIds = mutableListOf<Long>()
             var i = 0f
             for (cat in categories) {
                 entries.add(BarEntry(i, spendingMap[cat.categoryId]?.toFloat() ?: 0f))
                 labels.add(cat.name)
-                categoryIds.add(cat.categoryId)
                 i += 1f
             }
 
-            val dataSet = BarDataSet(entries, "Spending")
+            val dataSet = BarDataSet(entries, getString(R.string.label_category_spending))
             dataSet.color = Color.parseColor("#4CAF50")
-            val barData = BarData(dataSet)
+            dataSet.valueTextColor = Color.BLACK
+            dataSet.valueTextSize = 12f
 
             val barChart = findViewById<BarChart>(R.id.barChart)
-            barChart.data = barData
-            barChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
-            barChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-            barChart.xAxis.granularity = 1f
+            barChart.data = BarData(dataSet)
+            
+            // Chart Styling
             barChart.description.isEnabled = false
+            barChart.setFitBars(true)
+            barChart.animateY(1000)
+            
+            val xAxis = barChart.xAxis
+            xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
+            xAxis.granularity = 1f
+            xAxis.setDrawGridLines(false)
+            xAxis.labelRotationAngle = -45f
+            
+            barChart.axisRight.isEnabled = false
+            barChart.axisLeft.setDrawGridLines(true)
+            barChart.axisLeft.axisMinimum = 0f
+            
             barChart.invalidate()
-
-            // Add min/max lines per category
-            barChart.axisLeft.removeAllLimitLines()
-            for ((idx, catId) in categoryIds.withIndex()) {
-                val budget = database.budgetDao().getCategoryBudget(userId, DateUtils.getCurrentMonth(), DateUtils.getCurrentYear(), catId)
-                if (budget != null) {
-                    if (budget.maxAmount > 0) {
-                        val line = LimitLine(budget.maxAmount.toFloat(), "Max")
-                        line.lineColor = Color.RED
-                        line.lineWidth = 2f
-                        barChart.axisLeft.addLimitLine(line)
-                    }
-                }
-            }
         }
     }
 }
