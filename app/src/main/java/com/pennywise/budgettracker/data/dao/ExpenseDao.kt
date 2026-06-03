@@ -16,8 +16,9 @@ interface ExpenseDao {
     suspend fun deleteExpense(expense: Expense)
 
     @Query("""
-        SELECT * FROM expenses
-        WHERE userId = :userId AND date BETWEEN :startDate AND :endDate
+        SELECT * FROM expenses 
+        WHERE userId = :userId 
+        AND date BETWEEN :startDate AND :endDate 
         ORDER BY date DESC
     """)
     fun getExpensesBetweenDates(userId: Long, startDate: Long, endDate: Long): Flow<List<Expense>>
@@ -30,6 +31,9 @@ interface ExpenseDao {
 
     @Query("SELECT categoryId, SUM(amount) as total FROM expenses WHERE userId = :userId AND date BETWEEN :startDate AND :endDate GROUP BY categoryId")
     suspend fun getSpendingByCategoryGrouped(userId: Long, startDate: Long, endDate: Long): List<CategorySpending>
+
+    @Query("SELECT * FROM expenses WHERE userId = :userId")
+    suspend fun getAllExpenses(userId: Long): List<Expense>
 }
 
 data class CategorySpending(val categoryId: Long, val total: Double)

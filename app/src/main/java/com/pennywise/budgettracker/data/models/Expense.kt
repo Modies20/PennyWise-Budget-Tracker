@@ -13,7 +13,7 @@ data class Expense(
     val userId: Long,
     val categoryId: Long,
     val amount: Double,
-    val date: Long,               // timestamp
+    val date: Long,
     val description: String,
     val receiptImagePath: String? = null
 )

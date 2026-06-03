@@ -11,8 +11,11 @@ data class Budget(
     @PrimaryKey(autoGenerate = true)
     val budgetId: Long = 0,
     val userId: Long,
-    val categoryId: Long? = null,   // null = total monthly budget
+    val categoryId: Long? = null,
     val month: Int,
     val year: Int,
-    val limitAmount: Double          // maximum spending limit
-)
+    val limitAmount: Double = 0.0
+) {
+    // Adding these properties for compatibility with existing code that uses maxAmount
+    val maxAmount: Double get() = limitAmount
+}

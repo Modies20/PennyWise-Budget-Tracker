@@ -4,19 +4,26 @@
     android:orientation="vertical">
     <androidx.appcompat.widget.Toolbar android:id="@+id/toolbar"
         android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
-        android:background="#4CAF50" android:title="PennyWise" android:titleTextColor="@android:color/white"/>
+        android:background="#4CAF50" android:titleTextColor="@android:color/white" android:title="PennyWise"/>
     <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:padding="16dp">
-        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
-            <TextView android:id="@+id/tvWelcome" android:textSize="20sp" android:textStyle="bold"/>
-            <TextView android:text="Monthly Budget Progress" android:textStyle="bold" android:layout_marginTop="16dp"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+            <TextView android:id="@+id/tvWelcome" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textSize="24sp" android:textStyle="bold" android:layout_marginBottom="16dp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Monthly Budget Progress" android:textSize="18sp" android:textStyle="bold"/>
             <ProgressBar android:id="@+id/pbBudget" style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent" android:layout_height="20dp" android:max="100"/>
-            <TextView android:id="@+id/tvBudgetStatus" android:layout_marginBottom="16dp"/>
-            <Button android:id="@+id/btnSetBudget" android:text="Set Monthly Budget" android:layout_marginTop="8dp"/>
-            <Button android:id="@+id/btnManageCategories" android:text="Manage Categories" android:layout_marginTop="8dp"/>
-            <Button android:id="@+id/btnAddExpense" android:text="Add Expense" android:layout_marginTop="8dp"/>
-            <Button android:id="@+id/btnViewExpenses" android:text="View Expenses" android:layout_marginTop="8dp"/>
-            <Button android:id="@+id/btnCategoryTotals" android:text="Category Totals" android:layout_marginTop="8dp"/>
+                android:layout_width="match_parent" android:layout_height="20dp" android:layout_marginTop="16dp"
+                android:progressTint="#4CAF50" android:max="100"/>
+            <TextView android:id="@+id/tvBudgetStatus" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textAlignment="center" android:layout_marginTop="8dp"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp"
+                android:text="Category Spending" android:textSize="18sp" android:textStyle="bold"/>
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvCategories"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnGraph" android:text="View Spending Graph" android:layout_marginTop="16dp"/>
+            <Button android:id="@+id/btnProgressDashboard" android:text="Progress Dashboard" android:layout_marginTop="8dp"/>
+            <Button android:id="@+id/btnAchievements" android:text="Achievements" android:layout_marginTop="8dp"/>
+            <Button android:id="@+id/btnSubscriptions" android:text="Subscriptions Detector" android:layout_marginTop="8dp"/>
             <Button android:id="@+id/btnLogout" android:text="Logout" android:backgroundTint="#F44336" android:layout_marginTop="16dp"/>
         </LinearLayout>
     </ScrollView>

@@ -12,13 +12,14 @@ class SessionManager(context: Context) {
 
     fun saveLoginState(userId: Long, username: String) {
         prefs.edit().putLong("USER_ID", userId).putString("USERNAME", username)
-            .putBoolean("IS_LOGGED_IN", true).apply()
+            .putBoolean("IS_LOGGED_IN", true).putLong("LOGIN_TIMESTAMP", System.currentTimeMillis()).apply()
     }
 
     fun isLoggedIn(): Boolean = prefs.getBoolean("IS_LOGGED_IN", false)
     fun getUserId(): Long = prefs.getLong("USER_ID", -1)
     fun getUsername(): String = prefs.getString("USERNAME", "") ?: ""
     fun clearSession() = prefs.edit().clear().apply()
+    fun isSessionValid(): Boolean = System.currentTimeMillis() - prefs.getLong("LOGIN_TIMESTAMP", 0) < 7 * 24 * 60 * 60 * 1000L
 }
 
 object PasswordHasher {

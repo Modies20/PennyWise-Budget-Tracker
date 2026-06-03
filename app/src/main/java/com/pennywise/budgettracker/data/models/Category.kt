@@ -12,5 +12,6 @@ data class Category(
     val categoryId: Long = 0,
     val userId: Long,
     val name: String,
-    val colorCode: String = "#4CAF50"
+    val colorCode: String = "#4CAF50",
+    val isDefault: Boolean = false
 )

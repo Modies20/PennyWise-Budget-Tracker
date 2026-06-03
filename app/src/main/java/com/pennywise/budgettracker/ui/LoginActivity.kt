@@ -3,6 +3,7 @@
 
 package com.pennywise.budgettracker.ui
 
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -25,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         database = AppDatabase.getInstance(this)
         sessionManager = SessionManager(this)
 
-        if (sessionManager.isLoggedIn()) {
+        if (sessionManager.isLoggedIn() && sessionManager.isSessionValid()) {
             startActivity(Intent(this, DashboardActivity::class.java))
             finish()
         }

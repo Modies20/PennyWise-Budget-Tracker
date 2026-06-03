@@ -13,7 +13,7 @@ import com.pennywise.budgettracker.data.dao.*
 import com.pennywise.budgettracker.data.models.*
 
 @Database(
-    entities = [User::class, Category::class, Expense::class, Budget::class],
+    entities = [User::class, Category::class, Expense::class, Budget::class, Achievement::class],
     version = 1,
     exportSchema = false
 )
@@ -22,6 +22,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
     abstract fun expenseDao(): ExpenseDao
     abstract fun budgetDao(): BudgetDao
+    abstract fun achievementDao(): AchievementDao
 
     companion object {
         @Volatile
@@ -32,7 +33,7 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "pennywise_prototype"
+                    "pennywise_database"
                 ).build()
                 INSTANCE = instance
                 instance

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -38,6 +42,36 @@
         <activity
             android:name=".ui.DashboardActivity"
             android:exported="false" />
+
+        <!-- Add Expense Activity -->
+        <activity
+            android:name=".ui.AddExpenseActivity"
+            android:exported="false" />
+
+        <!-- Expenses List Activity -->
+        <activity
+            android:name=".ui.ExpensesListActivity"
+            android:exported="false" />
+
+        <!-- Budget Settings Activity -->
+        <activity
+            android:name=".ui.BudgetSettingsActivity"
+            android:exported="false" />
+
+        <!-- Category Totals Activity -->
+        <activity
+            android:name=".ui.CategoryTotalsActivity"
+            android:exported="false" />
+
+        <!-- Category Management Activity -->
+        <activity
+            android:name=".ui.CategoryManagementActivity"
+            android:exported="false" />
+
+        <activity android:name=".ui.GraphActivity" android:exported="false" />
+        <activity android:name=".ui.ProgressDashboardActivity" android:exported="false" />
+        <activity android:name=".ui.AchievementsActivity" android:exported="false" />
+        <activity android:name=".ui.SubscriptionDetectorActivity" android:exported="false" />
 
     </application>
 

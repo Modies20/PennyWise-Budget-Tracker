@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "810980364352",
+    "project_id": "pennywisefinal-3b0bc",
+    "storage_bucket": "pennywisefinal-3b0bc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:810980364352:android:f77b254935be36c84b8fa5",
+        "android_client_info": {
+          "package_name": "com.pennywise.budgettracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2pP_90XhPwJd8oms_V8-BmHn6mT1Evoc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

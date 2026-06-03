@@ -1,6 +1,4 @@
-// File: com/pennywise/budgettracker/data/models/User.kt
-// Reference: Android Developers (2024) 'Room Database - Defining entities'
-
+// Reference: Android Developers (2024) 'Room Database entities'
 package com.pennywise.budgettracker.data.models
 
 import androidx.room.Entity
@@ -11,5 +9,6 @@ data class User(
     @PrimaryKey(autoGenerate = true)
     val userId: Long = 0,
     val username: String,
-    val passwordHash: String   // hashed with SHA-256
+    val email: String,
+    val passwordHash: String
 )
