@@ -42,4 +42,6 @@
     <string name="desc_compliance_smiley">Compliance status smiley</string>
     <string name="desc_receipt_photo">Receipt photo preview</string>
     <string name="desc_receipt_thumb">Receipt thumbnail</string>
+    <string name="label_start_date">Start: %s</string>
+    <string name="label_end_date">End: %s</string>
 </resources>

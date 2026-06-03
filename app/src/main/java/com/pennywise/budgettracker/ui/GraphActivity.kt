@@ -76,8 +76,8 @@ class GraphActivity : AppCompatActivity() {
     }
 
     private fun updateTexts() {
-        findViewById<android.widget.TextView>(R.id.tvStartDate).text = "Start: ${DateUtils.formatDate(startDate)}"
-        findViewById<android.widget.TextView>(R.id.tvEndDate).text = "End: ${DateUtils.formatDate(endDate)}"
+        findViewById<android.widget.TextView>(R.id.tvStartDate).text = getString(R.string.label_start_date, DateUtils.formatDate(startDate))
+        findViewById<android.widget.TextView>(R.id.tvEndDate).text = getString(R.string.label_end_date, DateUtils.formatDate(endDate))
     }
 
     private fun loadGraph() {
