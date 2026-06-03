@@ -25,20 +25,29 @@ object DummyDataGenerator {
             database.budgetDao().insertBudget(Budget(userId = userId, categoryId = foodId, month = month, year = year, limitAmount = 1000.0))
             database.budgetDao().insertBudget(Budget(userId = userId, categoryId = transportId, month = month, year = year, limitAmount = 500.0))
             database.budgetDao().insertBudget(Budget(userId = userId, categoryId = entertainmentId, month = month, year = year, limitAmount = 300.0))
-            database.budgetDao().insertBudget(Budget(userId = userId, categoryId = 0, month = month, year = year, limitAmount = 3000.0)) // Total budget
+            database.budgetDao().insertBudget(Budget(userId = userId, categoryId = null, month = month, year = year, limitAmount = 3000.0)) // Total budget (categoryId IS NULL)
 
             // Insert Expenses
             database.expenseDao().insertExpense(Expense(userId = userId, categoryId = foodId, amount = 450.0, date = now, description = "Grocery Shopping"))
             database.expenseDao().insertExpense(Expense(userId = userId, categoryId = transportId, amount = 120.0, date = now - 86400000, description = "Fuel"))
-            database.expenseDao().insertExpense(Expense(userId = userId, categoryId = entertainmentId, amount = 350.0, date = now, description = "Netflix & Cinema")) // Slightly over budget for demo
+            database.expenseDao().insertExpense(Expense(userId = userId, categoryId = entertainmentId, amount = 350.0, date = now, description = "Netflix & Cinema"))
             database.expenseDao().insertExpense(Expense(userId = userId, categoryId = healthId, amount = 200.0, date = now - 172800000, description = "Pharmacy"))
 
-            // Insert a starter badge
+            // Insert starter badges
             database.achievementDao().insertAchievement(
                 com.pennywise.budgettracker.data.models.Achievement(
                     userId = userId,
                     name = "PennyWise Explorer",
                     description = "Started your journey to better budgeting!",
+                    earnedDate = now - 3600000,
+                    iconResId = com.pennywise.budgettracker.R.drawable.ic_badge
+                )
+            )
+            database.achievementDao().insertAchievement(
+                com.pennywise.budgettracker.data.models.Achievement(
+                    userId = userId,
+                    name = "First Expense",
+                    description = "Successfully logged your first transaction.",
                     earnedDate = now,
                     iconResId = com.pennywise.budgettracker.R.drawable.ic_badge
                 )
